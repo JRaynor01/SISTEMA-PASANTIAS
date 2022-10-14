@@ -1,0 +1,282 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Registro unidades {{post.body}}{% endblock tittle %}
+{% block content %}
+<main>
+    <input type="checkbox" name="btn-1" id="btn-1" hidden>
+    <input type="checkbox" name="btn-2" id="btn-2" hidden>
+    <datalist id="e_1/2022">
+        <option value="Carlos Rodriguez"></option>
+        <option value="Carla Rodriguez"></option>
+        <option value="Carmen Rodriguez"></option>
+        <option value="Rodrigo Rodriguez"></option>
+        <option value="Canterlot Rodriguez"></option>
+        <option value="Martha Rodriguez"></option>
+        <option value="Magnanimo magnate Rodriguez"></option>
+        <option value="Juan Carlos Rodriguez"></option>
+    </datalist>
+    <datalist id="e_2/2022">
+        <option value="Carlos Ramirez"></option>
+        <option value="Carla Ramirez"></option>
+        <option value="Carmen Ramirez"></option>
+        <option value="Rodrigo Ramirez"></option>
+        <option value="Canterlot Ramirez"></option>
+        <option value="Martha Ramirez"></option>
+        <option value="Magnanimo magnate Ramirez"></option>
+        <option value="Juan Carlos Ramirez"></option>
+    </datalist>
+    <datalist id="e_3/2022">
+        <option value="Carlos Mandarinarinos"></option>
+        <option value="Carla Mandarinarinos"></option>
+        <option value="Carmen Mandarinarinos"></option>
+        <option value="Rodrigo Mandarinarinos"></option>
+        <option value="Canterlot Mandarinarinos"></option>
+        <option value="Martha Mandarinarinos"></option>
+        <option value="Magnanimo magnate Mandarinarinos"></option>
+        <option value="Juan Carlos Mandarinarinos"></option>
+    </datalist>
+    <div id="caja_presentacion" class="fila">
+        <div class="presentacion_tabla">
+            <div class="titulo">
+                Pasantias
+            </div>
+            <div class="llenar">
+                <table class="tablita">
+                    <tr >
+                        <th class="peq">
+                            Nro
+                        </th>
+                        <th class="med">
+                            Estado
+                        </th>
+                        <th>
+                            Observaciones
+                        </th>
+                        <th class="peq">
+                            Unidades
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            1/2022
+                        </td>
+                        <td>
+                            Lista
+                        </td>
+                        <td>
+                            Falta Asignar Estudiantes
+                        </td>
+                        <td>
+                            <label onclick="as_es(this.id)" id="e_1/2022" for="btn-1" class="boton_t">
+                                Unidades
+                            </label>
+                        </td>
+                    
+                    </tr>
+                    <tr>
+                        <td>
+                            2/2022
+                        </td>
+                        <td>
+                            No Listo
+                        </td>
+                        <td>
+                            Revisar Documentos
+                        </td>
+                        <td>
+                            <label onclick="as_es(this.id)" id="e_2/2022" for="btn-1" class="boton_t">
+                                Unidades
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3/2022
+                        </td>
+                        <td>
+                            Completa
+                        </td>
+                        <td>
+                            Ya se asignaron Postulantes
+                        </td>
+                        <td>
+                            <label onclick="as_es(this.id)" id="e_3/2022" for="btn-1" class="boton_t">
+                                Unidades
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+            
+       </div>
+    </div>
+
+
+    <div class="cont-modal">
+        <div class="conten-modal">
+            <h2>Unidades Pasantia 2/2022</h2>
+            <div class="tab_mod">
+                <table class="t2">
+                    <tr class="cap">
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Cupos Disponibles
+                        </th>
+                        <th>
+                            Botón
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Financiera
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            <label onclick="crear_l(this.id)" id="5" for="btn-2" class="boton_t">
+                                Asignar
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Auditoria Interna
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td>
+                            <label onclick="crear_l(this.id)" id="3" for="btn-2" class="boton_t">
+                                Asignar
+                            </label>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="btn-cerrar2">
+                <label for="btn-1" class="boton_2">
+                    Cerrar
+                </label>
+            </div>
+        </div>
+        <label for="btn-1" class="cerrar-modal"></label>
+    </div>
+    
+    
+
+    <div class="cont-modal1">
+        <div class="conten-modal">
+            <h2>Pasantia 1/2022</h2>
+            <h4>Unidad Financiera</h4>
+            <br>
+            <div >
+                <form method="get" id="lis_est_u">
+
+                </form>
+            </div>
+            <div class="btn-cerrar2" >
+                
+            </div>
+            <div class="btn-cerrar2">
+                <label onclick="envia()" for="" class="boton_2 oculto dis" style="margin-right: 20px;">
+                    Asignar
+                </label>
+                <label onclick="eli_l()" for="btn-2" class="boton_2">
+                    Cerrar
+                </label>
+            </div>
+        </div>
+        <label onclick="eli_l()" for="btn-2" class="cerrar-modal"></label>
+    </div>
+</main>
+
+<script>
+    var pas = "";
+    var c =0;
+    var auc=0;
+    var xas=0;
+
+    function as_es(i){
+        pas=i;
+    }
+    function crear_l(n){
+        auc=n;
+        var b = document.getElementById("lis_est_u");
+        var lis=document.getElementById(pas).childNodes;
+        for (let i = 0; i < lis.length; i++) {
+            i++;
+            const a = document.createElement("label");
+            a.setAttribute("for",lis[i].value);
+            a.setAttribute("class","label_largo");
+            a.setAttribute("value",c);
+
+            const sp= document.createElement("span");
+            sp.textContent=lis[i].value+" :";
+            a.appendChild(sp);
+
+            const inp= document.createElement("input");
+            inp.setAttribute("oninput","lista_checks(this.checked)");
+            inp.setAttribute("type","checkbox");
+            inp.setAttribute("class","rt");
+            inp.setAttribute("name",lis[i].value);
+            inp.setAttribute("id",lis[i].value);
+            a.appendChild(inp);
+            b.appendChild(a);
+            c=c+1;
+        }
+    }
+    function eli_l(){
+        var d = document.querySelectorAll(".label_largo");
+        for (let k = 0; k < d.length; k++) {
+            d[k].remove();
+        }
+        c=0;
+    }
+    function lista_checks(g){
+            if(g){
+                xas++;
+                if(xas==auc){
+                    var dp = document.querySelector(".dis");
+                    dp.className="boton_2 qw";
+                    var tuy = document.querySelectorAll(".rt");
+                    tuy.forEach(e => {
+                        if(e.checked==false){
+                            e.classList="rt oculto";
+                        }
+                    });
+                }
+            }else{
+                xas--;
+                if(xas<auc){
+                    var dp = document.querySelector(".qw");
+                    dp.className="boton_2 dis oculto";
+                    var tuy = document.querySelectorAll(".rt");
+                    tuy.forEach(e => {
+                        if(e.checked==false){
+                            e.classList="rt";
+                        }
+                    });
+                }
+            }
+    }
+    function envia(){
+        var b = document.getElementById("lis_est_u");
+        eli_l();
+        b.submit();
+
+    }
+    /*
+    function lista_dinamica(a){
+        var d = document.getElementById(pas).childNodes;
+        for (let i = 1; i < d.length; i++) {
+            if(d[i].value==a){
+                d[i].remove();
+            }
+        }
+    }*/
+</script>
+{% endblock content %}

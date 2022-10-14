@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block tittle %}Inicio Sistema de Pasantias{% endblock tittle %}
+
+{% block content %}
+<main>
+   
+    <div id="caja_presentacion" class="fila">
+        <div class="presentacion_tabla">
+            <div class="titulo">
+                Pasantias
+            </div>
+            <div class="llenar">
+                <table class="tablita">
+                    <tr >
+                        <th class="peq">
+                            Nro
+                        </th>
+                        <th class="med">
+                            Estado
+                        </th>
+                        <th>
+                            Observaciones
+                        </th>
+                        <th class="peq">
+                            Unidades
+                        </th>
+                    </tr>
+                    {% for post in posts %}
+                    <tr>
+                        <td>
+                            {{post.body}}
+                        </td>
+                        <td>
+                            {{post.estado}}
+                        </td>
+                        <td style="TEXT-ALIGN:CENTER;">
+                            {% if post.estado == 'FINALIZADO' %}   FALTA ASIGNACION {%else%} ASIGNACION COMPLETADA {% endif %}
+                        </td>
+                        <td>
+                                {% if post.estado == 'ASIGNADO' %}
+                                <a href="{% url 'pasantia:verpdf' post.body%}">Ver PDF</a>
+                                {% else %}
+                                <a href="{% url 'pasantia:registrounidades' post.body%}">Unidades</a>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+       </div>
+    </div>
+</main>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Agregar{% endblock tittle %}
+{% block content %}
+<main>
+    <div id="caja_presentacion" class="fila">
+        <div class="llenar">
+            <div class="formu"><a href="{% url 'pasantia:createpost' %}">Publicar Pasantia</a></div>    
+        </div>
+        <div class="llenar">
+            <div class="formu"><a href="{% url 'pasantia:createntidad' %}">Añadir Unidad</a></div>    
+        </div>
+    </div>
+</main>
+{% endblock content %}

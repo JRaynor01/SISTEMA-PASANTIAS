@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block tittle %}Inicio Sistema de Pasantias{% endblock tittle %}
+
+{% block content %}
+
+<main>
+    <input type="checkbox" name="btn-b" id="btn-b">
+   <div id="buscador">  
+        <div class="titulo">
+            Buscador
+        </div>
+        <div id="busc">
+            <form action="{% url 'buscador' %}" method="POST">
+                {% csrf_token %}
+                <label for="unidad">
+                    <span>Nro pasantia:</span>
+                    <input type="text" name="nro" id="unidad">
+                </label>
+                <label for="fecha_ini">
+                    <span>Fecha Publicacion:</span>
+                    <input type="date" name="fecha_ini" id="fecha_ini">
+                </label>
+                <label for="fecha_fin">
+                    <span>Fecha Limite:</span>
+                    <input type="date" name="fecha_fin" id="fecha_fin">
+                </label>
+                <label for="estado">
+                    <span>Estado de Pasantia:</span>
+                    <input list="opc_est" name="estado" id="estado"> 
+                <datalist id="opc_est">
+                    <option>REVISION</option>
+                    <option>FINALIZADO</option>
+                    <option>ASIGNADO</option>
+                </datalist>
+                <div id="busc_btn">
+                    <a><button type="submit">Buscar</button></a>
+                </div>
+            </form>
+        </div>
+        <br>
+        
+    </div>
+    <div id="caja_presentacion">
+{% for post in posts %}<div class="caja_pasantia">
+            <span id="cua"></span>
+            <div class="contenido">
+                <h2>Nro {{post.body}}</h2>
+                <div class="logo_unidad" >
+                    <img class="logo_u" src="{{post.entidad_pert.image.url}}" alt="logo_unidad">
+                </div>
+                <label for="">
+                    <span>Publicado: {{post.created_on}}</span>
+                </label>
+                <label for="">
+                    <span>Limite: {{post.fecha_limite}}</span>
+                </label>
+                <label for="">
+                    <span>Entidad: {{post.entidad_pert.nombre}}</span>
+                </label>
+                <label for="">
+                    <span>Total Insc: {{post.cantidad_insc}}</span>
+                </label>
+                
+                {% if user.tipo == 'administrador' %}
+                <!--<a href="{% url 'pasantia:sorteo' post.body%}">Sortear</a>-->
+                <a href="{% url 'pasantia:modpost' post.body%}">Modificar</a> 
+                <a href="{% url 'pasantia:rev_postulacion' post.body%}">Ver Postulantes</a> 
+                {% else %}
+                <a href="{% url 'info' post.body%}">Saber Mas</a> 
+                {% endif %}
+                
+            </div>
+        </div>
+{% endfor %}</div>
+</main>
+
+{% endblock content %}

@@ -1,0 +1,162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <style type="text/css">
+@page { 
+    size: landscape;
+    margin-right: 20px;
+    margin-left: 40px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+} 
+table{
+    width: 90%;
+    margin-right: 30px;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    white-space: pre-wrap;
+    border-collapse: collapse;
+}
+td{
+    text-align: center;
+    border: 1px solid #000;
+}
+th{
+    border: 1px solid #000;
+}
+.ti{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.cont{
+    text-align: left;
+}
+.fecha{
+    width:150px;
+}
+.num{
+    width:30px;
+    text-align: center;
+}
+.firmas{
+    margin-top: 100px;
+    text-align: center;
+}
+.firmas tr td{
+    width: 33%;
+    text-align: center;
+    border:1px solid #fff;
+}
+.firmas tr .firma{
+    border-top: 1px solid #000;
+}
+    </style>
+</head>
+<body>
+    <div>
+        <img src="{{logo}}" alt="" style=width:100%;>
+    </div>
+    <h3 style="text-align: center;">
+        Informe de Pasantia {{post.body}}
+    </h3>
+    <table>
+        <tr class="cont">
+            <th class="fecha">Entidad: </th>
+            <th >{{post.entidad_pert}}</th>
+            <th class="fecha">Unidad (es):</th>
+            <th >{% for unidad in unidades %}{{unidad.nombre}}, {% endfor %} </th>
+        </tr>
+        <tr class="cont">
+            <th>Fecha Publicación:</th>
+            <th>{{post.created_on}}</th>
+            <th >Fecha Asignacion:</th>
+            <th>{{post.fecha_limite}}</th>
+        </tr>
+    </table>
+    <table class="ti">
+        <tr>
+            <th >Estudiantes asignados</th>
+        </tr>
+    </table>
+    <table>
+        
+        <tr>
+            <th class="num">N°</th>
+            <th>Nombre Completo</th>
+            <th class="fecha">Año de Estudio</th>
+            <th class="fecha">Fecha Postulación</th>
+            <th class="fecha">Fecha de Termino de Pasantia</th>
+            <th>Unidad</th>
+            <th class="num">Promedio</th>
+        </tr>
+        {% for postulante in postulantes_acep %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td style="text-align: left;">{{postulante.estudiante.first_name}} {{postulante.estudiante.last_name}} {{postulante.estudiante.second_last_name}}</td>
+            <td>{{postulante.estudiante.profile.grado}}</td>
+            <td>{{post.created_on}}</td>
+            <td>12/10/22</td>
+            <td>{{postulante.unidad.nombre}}</td>
+            <td>{{postulante.estudiante.profile.puntaje_gral}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if postulantes_rech %}
+    <table class="ti">
+    <tr >
+        <th>Estudiantes Rechazados</th>
+    </tr>
+    </table>
+
+    <table>
+        
+        <tr>
+            <th class="num">N°</th>
+            <th>Nombre Completo</th>
+            <th class="num">CI</th>
+            <th class="num">HV</th>
+            <th class="num">RA</th>
+            <th class="num">BI</th>
+            <th class="num">CCE</th>
+            <th class="fecha">Año de Estudio</th>
+            <th class="num">Promedio</th>
+        </tr>
+        {% for postulante in postulantes_rech %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td style="text-align: left;">{{postulante.estudiante.first_name}} {{postulante.estudiante.last_name}} {{postulante.estudiante.second_last_name}}</td>
+            <td>Si</td>
+            <td>Si</td>
+            <td>Si</td>
+            <td>Si</td>
+            <td>No</td>
+            <td>{{postulante.estudiante.profile.grado}}</td>
+            <td>80</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <table class="firmas">
+        <tr>
+            <td class="firma">
+DIRECTOR DE CARRERA
+M.Sc. TEDDY ORLANDO CATALAN
+            </td>
+            <td></td>
+            <td class="firma">
+ENCARGADO DE PASANTIAS
+Lic. ISABEL GUTIERREZ
+            </td>
+        </tr>
+    </table>
+    
+</body>
+</html>

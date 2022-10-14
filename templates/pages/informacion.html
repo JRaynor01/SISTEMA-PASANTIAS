@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load i18n %}
+
+{% block tittle %}Informacion {{post.body}}{% endblock tittle %}
+
+{% block content %}
+<main>
+    <div id="caja_presentacion">
+        <div id="caja_info">
+            <div class="titulo">
+                Informacion Pasatia {{post.body}}
+            </div>
+            <div class="pdf_con">
+                <object
+                    data='{{post.file.url}}'
+                    type="application/pdf"
+                    height="250"
+                    width="550"
+                    >
+                    <iframe
+                        src='{{post.file.url}}'
+                        height="250"
+                        width="250"
+                        >
+                        <p>Este navegador no soporta PDF</p>
+                    </iframe>
+                </object>
+                {% if user.tipo == 'estudiante' %}
+                <a href="{% url 'pasantia:postulacion' post.body%}" class="btn blue"><span>Postularme</span></a>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

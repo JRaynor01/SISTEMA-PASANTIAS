@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% include 'account/header.html' %}
+    {% block body %}
+
+    {% include 'messages.html' %}
+    {% comment "" %}
+    <div>
+      <strong>Menu:</strong>
+      <ul>
+        
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+        {% else %}
+        <li><a href="{% url 'account_login' %}">Sign In</a></li>
+        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endcomment %}
+    <div id="fondo">
+      
+      <div class="contenedor estrellas">
+          <!--
+          <div>
+              <span class="est" style="--i:1;"></span>
+              <span class="est" style="--i:5;"></span>
+              <span class="est" style="--i:9;"></span>
+              <span class="est" style="--i:13;"></span>
+              <span class="est" style="--i:17;"></span>
+              <span class="est" style="--i:21;"></span>
+          </div>
+          <div>
+              <span class="est" style="--i:2;"></span>
+              <span class="est" style="--i:6;"></span>
+              <span class="est" style="--i:10;"></span>
+              <span class="est" style="--i:14;"></span>
+              <span class="est" style="--i:18;"></span>
+              <span class="est" style="--i:22;"></span>
+          </div>
+          <div>
+              <span class="est" style="--i:15;"></span>
+              <span class="est" style="--i:17;"></span>
+              <span class="est" style="--i:19;"></span>
+              <span class="est" style="--i:18;"></span>
+              <span class="est" style="--i:16;"></span>
+              <span class="est" style="--i:14;"></span>
+          </div>
+          <div>
+              <span class="est" style="--i:13;"></span>
+              <span class="est" style="--i:12;"></span>
+              <span class="est" style="--i:20;"></span>
+              <span class="est" style="--i:21;"></span>
+              <span class="est" style="--i:10;"></span>
+              <span class="est" style="--i:22;"></span>
+          </div>
+          -->
+          <div>
+              <span class="est" style="--i:2;"></span>
+              <span class="est" style="--i:6;"></span>
+              <span class="est" style="--i:10;"></span>
+              <span class="est" style="--i:14;"></span>
+              <span class="est" style="--i:18;"></span>
+              <span class="est" style="--i:22;"></span>
+          </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+    <div>
+
+      <span class="est" style="--i:3;"></span>
+      <span class="est" style="--i:7;"></span>
+      <span class="est" style="--i:11;"></span>
+      <span class="est" style="--i:15;"></span>
+      <span class="est" style="--i:19;"></span>
+      <span class="est" style="--i:23;"></span>
+  </div>
+  <div>
+      <span class="est" style="--i:1;"></span>
+      <span class="est" style="--i:5;"></span>
+      <span class="est" style="--i:9;"></span>
+      <span class="est" style="--i:13;"></span>
+      <span class="est" style="--i:17;"></span>
+      <span class="est" style="--i:21;"></span>
+      <span class="est" style="--i:4;"></span>
+      <span class="est" style="--i:8;"></span>
+      <span class="est" style="--i:12;"></span>
+      <span class="est" style="--i:16;"></span>
+      <span class="est" style="--i:20;"></span>
+      <span class="est" style="--i:24;"></span>
+      <span class="est" style="--i:31;"></span>
+      <span class="est" style="--i:36;"></span>
+      <span class="est" style="--i:39;"></span>
+      <span class="est" style="--i:40;"></span>
+      <span class="est" style="--i:25;"></span>
+      <span class="est" style="--i:19;"></span>
+  </div>
+  <!--
+
+  <div>
+      
+  </div>
+  <div>
+      <span class="est" style="--i:31;"></span>
+      <span class="est" style="--i:32;"></span>
+      <span class="est" style="--i:33;"></span>
+      <span class="est" style="--i:34;"></span>
+      <span class="est" style="--i:35;"></span>
+      <span class="est" style="--i:36;"></span>
+  </div>
+
+  <div>
+
+      <span class="est" style="--i:37;"></span>
+      <span class="est" style="--i:38;"></span>
+      <span class="est" style="--i:39;"></span>
+      <span class="est" style="--i:40;"></span>
+      <span class="est" style="--i:41;"></span>
+      <span class="est" style="--i:42;"></span>
+  </div>
+  <div>
+      <span class="est" style="--i:43;"></span>
+      <span class="est" style="--i:44;"></span>
+      <span class="est" style="--i:45;"></span>
+      <span class="est" style="--i:46;"></span>
+      <span class="est" style="--i:47;"></span>
+      <span class="est" style="--i:48;"></span>
+  </div>
+-->
+</div>
+</div>
+  </body>
+</html>

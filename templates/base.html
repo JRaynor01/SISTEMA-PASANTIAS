@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="{% static 'images/u_logo.png' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleT.css' %}">
+    <title>{% block tittle %}{% endblock tittle %}</title>
+
+    <!--Boxicons-->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+
+<body>
+    {% include 'components/header.html' %}
+    {% include 'messages.html' %}
+    {% block content %}{% endblock content %}
+    
+    {% include 'components/footer.html' %}
+    
+</body>
+
+</html>

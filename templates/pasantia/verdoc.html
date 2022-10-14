@@ -1,0 +1,163 @@
+{% extends 'users/base.html' %}
+{% block tittle %} Documentos del usuario {{profile.user.username}} {% endblock tittle %}
+{% block content %}
+<main>
+    <div id="caja_presentacion">
+        <div id="documentos_rev" >
+            <div class="titulo">
+               DOCUMENTOS {{profile.user.first_name}} {{profile.user.last_name}} {{profile.user.second_last_name}}
+            </div>
+            <div id="carnet" name="carnet" class="docs">
+                <span>Fotocopia de Carnet de Identidad</span>
+                <div class="pdf2">
+                    {% if profile.ci_doc.url != "" %}
+                    <object
+                        data='../pdfs/pasantia1.pdf'
+                        type="application/pdf"
+                        height="350"
+                        width="100%"
+                        >
+                        <iframe
+                            src='{{profile.ci_doc.url}}'
+                            height="350"
+                            width="100%"
+                            >
+                            <p>Este navegador no soporta PDF</p>
+                        </iframe>
+                    </object>
+                    {% else %}
+                    <p>Archivo no subido</p>
+                    {% endif %}
+                </div>
+                <div class="btn_2">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <a id="aprobar" ><button type="submit" name="casoci" value='aceptado'>Aprobar</button></a>
+                        <a id="rechazar"><button type="submit" name="casoci" value='rechazado'>Rechazar</button></a>
+                    </form>
+                </div>
+            </div>
+            <div id="hoja_vida" name="hoja_vida" class="docs">
+                <span>Hoja de vida documentado</span>
+                <div class="pdf2">
+                    {% if profile.hoja_vida_doc.url != "" %}
+                    <object
+                        data='../pdfs/pasantia1.pdf'
+                        type="application/pdf"
+                        height="350"
+                        width="100%"
+                        >
+                        <iframe
+                            src='{{profile.hoja_vida_doc.url}}'
+                            height="350"
+                            width="100%"
+                            >
+                            <p>Este navegador no soporta PDF</p>
+                        </iframe>
+                    </object>
+                    {% else %}
+                    <p>Archivo no subido</p>
+                    {% endif %}    
+                </div>
+                <div class="btn_2">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <a id="aprobar"><button type="submit" name="casohv" value='aceptado'>Aprobar</button></a>
+                        <a id="rechazar" ><button type="submit" name="casohv" value='rechazado'>Rechazar</button></a>
+                    </form>
+                </div>
+            </div>
+            <div id="historial" name="historial" class="docs">
+                <span>Historial y record academico</span>
+                <div class="pdf2">
+                    {% if profile.record_doc.url != "" %}
+                    <object
+                        data='../pdfs/pasantia1.pdf'
+                        type="application/pdf"
+                        height="350"
+                        width="100%"
+                        >
+                        <iframe
+                            src='{{profile.record_doc.url}}'
+                            height="350"
+                            width="100%"
+                            >
+                            <p>Este navegador no soporta PDF</p>
+                        </iframe>
+                    </object>
+                    {% else %}
+                    <p>Archivo no subido</p>
+                    {% endif %}    
+                </div>
+                <div class="btn_2">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <a id="aprobar"><button type="submit" name="casora" value='aceptado'>Aprobar</button></a>
+                        <a id="rechazar" ><button type="submit" name="casora" value='rechazado'>Rechazar</button></a>
+                    </form>
+                </div>
+            </div>
+            <div id="boleta" name="boleta" class="docs">
+                <span>Boleta de Inscripcion o Fotocopia Matricula</span>
+                <div class="pdf2">
+                    {% if profile.bol_insc_doc.url != "" %}
+                    <object
+                        data='../pdfs/pasantia1.pdf'
+                        type="application/pdf"
+                        height="350"
+                        width="100%"
+                        >
+                        <iframe
+                            src='{{profile.bol_insc_doc.url}}'
+                            height="350"
+                            width="100%"
+                            >
+                            <p>Este navegador no soporta PDF</p>
+                        </iframe>
+                    </object>
+                    {% else %}
+                    <p>Archivo no subido</p>
+                    {% endif %}
+                </div>
+                <div class="btn_2">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <a id="aprobar"><button type="submit" name="casofm" value='aceptado'>Aprobar</button></a>
+                        <a id="rechazar"><button type="submit" name="casofm" value='rechazado'>Rechazar</button></a>
+                    </form>
+                </div>
+            </div>
+            <div id="certificado" name="certificado" class="docs">
+                <span>Certificado de Conclusion de estudios</span>
+                <div class="pdf2">
+                    {% if profile.conc_est_doc.url != "" %}
+                    <object
+                        data='../pdfs/pasantia1.pdf'
+                        type="application/pdf"
+                        height="350"
+                        width="100%"
+                        >
+                        <iframe
+                            src='{{profile.conc_est_doc.url}}'
+                            height="350"
+                            width="100%"
+                            >
+                            <p>Este navegador no soporta PDF</p>
+                        </iframe>
+                    </object>
+                    {% else %}
+                    <p>Archivo no subido</p>
+                    {% endif %}    
+                </div>
+                <div class="btn_2">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <a id="aprobar"><button type="submit" name="casoce" value='aceptado'>Aprobar</button></a>
+                        <a id="rechazar"><button type="submit" name="casoce" value='rechazado'>Rechazar</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

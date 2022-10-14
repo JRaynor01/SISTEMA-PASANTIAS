@@ -1,0 +1,105 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Postulacion {{pasantia.body}}{% endblock tittle %}
+
+{% block content %}
+<main>
+    <div id="caja_presentacion" class="fila">
+        {% if estado == 'encalificacion' %}
+        <div class="postulacion">
+            <div class="titulo">
+                Aviso de postulación
+            </div>
+            <div class="contenido">
+                <span>Se encuentra inscrito en la pasantia {{postulacion.postpasantia}} se estan calificando sus documentos</span> 
+            </div>
+        </div>
+        <br/>
+        {% else %}
+            {% if estado == 'encurso' %}
+            <div class="postulacion">
+                <div class="titulo">
+                    Aviso de postulación
+                </div>
+                <div class="contenido">
+                    <span>Se encuentra inscrito en la pasantia {{postulacion.postpasantia}} tiene hasta la fecha {{postulacion.postpasantia.fecha_limite}}</span> 
+                    <span>para modificar sus datos, posteriormente se restringira el cambio a los documentos</span>
+                </div>
+            </div>
+            <br/>
+            {% else %}
+            <div class="postulacion">
+                <div class="titulo">
+                    Aviso de postulación
+                </div>
+                <div class="contenido">
+                    <span>La Pasantia {{pasantia.body}}</span>
+                <span>Revisa bien los documentos e informacion proporciona en esta pagina</span>
+                <span>Una vez postulado solo podras hacer modificaciones hasta antes de la fecha limite</span>
+                <span>No podras postularte a otra pasantia mientras tus documentos estén en espera</span>
+                <span>Ni tampoco una vez seas elegido para una pasantia</span>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Postularme" />
+                </form>
+                
+                </div>
+            </div>
+            <br/>
+            {% endif %}  
+            <div id="documentos_estudiante" class="llenar">
+                <div class="titulo">
+                    Documentos Personales
+                </div>
+                    <div class="formu">
+                        <form method='POST' enctype="multipart/form-data" action="{% url 'users:profile-document' %}">
+                            {% csrf_token %}
+                            <label for="ci" class="verificado {{user.profile.est_ci}}">
+                                
+                                {% if user.profile.est_ci != 'rechazado' %}
+                                <a href="{{user.profile.ci_doc.url}}"><span>Fotocopia de Carnet de Identidad</span></a>
+                                {% else %}
+                                <span>Fotocopia de Carnet de Identidad</span>
+                                {% endif %}
+                                {{form.ci_doc}}
+                            </label>
+                            <label for="hoja_vida" class="verificado {{user.profile.est_hoja_vida}}">
+                                {% if user.profile.est_hoja_vida != 'rechazado' %}
+                                <a href="{{user.profile.hoja_vida.url}}"><span>Hoja de vida documentado</span></a>
+                                {% else %}
+                                <span>Hoja de vida documentado</span>
+                                {% endif %}
+                                {{form.hoja_vida_doc}}
+                            </label>
+                            <label for="record" class="verificado {{user.profile.est_record_doc}}">
+                                {% if user.profile.est_record_doc != 'rechazado' %}
+                                <a href="{{user.profile.record_doc.url}}"><span>Historial y record academico</span></a>
+                                {% else %}
+                                <span>Historial y Record academico</span>
+                                {% endif %}
+                                {{form.record_doc}}
+                            </label>
+                            <label for="matri" class="verificado {{user.profile.est_bol_insc}}">
+                                {% if user.profile.est_bol_insc != 'rechazado' %}
+                                <a href="{{user.profile.bol_insc.url}}"><span>Boleta de Inscripcion</span></a>
+                                {% else %}
+                                <span>Boleta de Inscripcion</span>
+                                {% endif %}
+                                {{form.bol_insc_doc}}
+                            </label>
+                            <label for="ce" class="verificado {{user.profile.est_conc_est}}">
+                                {% if user.profile.est_conc_est != 'rechazado' %}
+                                <a href="{{user.profile.conc_est.url}}"><span>Certificado de Conclusion de estudios</span></a>
+                                {% else %}
+                                <span>Certificado de Conclusion de estudios</span>
+                                {% endif %}
+                                {{form.conc_est_doc}}
+                            </label>
+                            <a><button type="submit">Guardar Cambios</button></a>
+                        </form>
+                </div>
+            </div>
+            <br>
+            {% endif %}
+    </div>
+</main>
+{% endblock content %}

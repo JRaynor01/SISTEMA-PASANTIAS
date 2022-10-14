@@ -1,0 +1,207 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Postulantes {{post.body}}{% endblock tittle %}
+{% block content %}
+<main>
+    <div id="caja_presentacion" class="fila">
+        <div class="postulantes_pasantia">
+            <div class="titulo">
+                Pasantia {{post.body}}
+            </div>
+            <div class="pasantia_datos">
+                <span>Entidad: {{post.entidad_pert}}</span>
+                <span>Fecha Publicacion: {{fecha_cre}}</span>
+                <span>Fecha Limite: {{fecha_lim}}</span>
+                {% if not value %}<span>Debe esperar a la fecha limite para calificar a los postulantes</span>{% endif %}
+            </div>
+            <div class="estudiantes">
+                {% for postulante in estudiantes_insc %}
+                <div id="{{forloop.counter}}" class="estudiante ">
+                    <div id="{{forloop.counter}}" class="capa_pro oculto">
+                        <a onclick="desasignar(this.parentElement.id)" id="btn_esp2" class="punto_guia">Desasignar</a>
+                        <p class="mensaje">Estudiante asignado a la pasantia</p>
+                    </div>
+                    <div class="datos">
+                        <div id="datos_e">
+                            <span>Nombre: </span> <span class="nombre"> {{postulante.estudiante.first_name}} {{postulante.estudiante.last_name}} {{postulante.estudiante.second_last_name}}</span>
+                            <br>
+                            <span>CI: </span><span class="ci">{{postulante.estudiante.ci}}</span>
+                            <br>
+                            <span class="grado">Grado: {{postulante.estudiante.grado}} año</span>
+                            <br>
+                            <span class="celular">Celular: {% if postulante.estudiante.profile.celular %} {{postulante.estudiante.profile.celular}} {% else %} Sin registro {% endif %}</span>
+                        </div>
+                        <div id="promedio">
+                            <span>{{postulante.estudiante.puntaje_gral}}</span>
+                        </div> 
+                    </div>
+                    <div class="documentos">
+                        <label for="ci" class="">
+                            <span id="logo_check">{% if postulante.estudiante.profile.est_ci == 'aceptado' %}<ion-icon name="checkmark-circle-outline"></ion-icon>{% elif postulante.estudiante.profile.est_ci == 'pendiente' %} <ion-icon name="ellipse-outline"></ion-icon> {% else %} <ion-icon name="close-circle-outline"></ion-icon> {% endif %}</span>
+                            <span>Carnet de Identidad</span>
+                            <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}#carnet"><ion-icon name="eye-outline"></ion-icon></a>
+                        </label>
+                        <label for="hoja_vida" class="">
+                            <span id="logo_check">{% if postulante.estudiante.profile.est_hoja_vida == 'aceptado' %}<ion-icon name="checkmark-circle-outline"></ion-icon>{% elif postulante.estudiante.profile.est_hoja_vida == 'pendiente' %} <ion-icon name="ellipse-outline"></ion-icon> {% else %} <ion-icon name="close-circle-outline"></ion-icon> {% endif %}</span>
+                            <span>Hoja de vida documentado</span>
+                            <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}#hoja_vida"><ion-icon name="eye-outline"></ion-icon></a>
+                        </label>
+                        <label for="record" class="">
+                            <span id="logo_check">{% if postulante.estudiante.profile.est_record_doc == 'aceptado' %}<ion-icon name="checkmark-circle-outline"></ion-icon>{% elif postulante.estudiante.profile.est_record_doc == 'pendiente' %} <ion-icon name="ellipse-outline"></ion-icon> {% else %} <ion-icon name="close-circle-outline"></ion-icon> {% endif %}</span>
+                            <span>Historial y Record academico</span>
+                            <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}#historial"><ion-icon name="eye-outline"></ion-icon></a>
+                        </label>
+                        <label for="matri" class="">
+                            <span id="logo_check">{% if postulante.estudiante.profile.est_bol_insc == 'aceptado' %}<ion-icon name="checkmark-circle-outline"></ion-icon>{% elif postulante.estudiante.profile.est_bol_insc == 'pendiente' %} <ion-icon name="ellipse-outline"></ion-icon> {% else %} <ion-icon name="close-circle-outline"></ion-icon> {% endif %}</span>
+                            <span>Boleta de Inscripcion o Fotocopia Matricula</span>
+                            <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}#boleta"><ion-icon name="eye-outline"></ion-icon></a>
+                        </label>
+                        <label for="ce" class="">
+                            <span id="logo_check">{% if postulante.estudiante.profile.est_conc_est == 'aceptado' %}<ion-icon name="checkmark-circle-outline"></ion-icon>{% elif postulante.estudiante.profile.est_conc_est == 'pendiente' %} <ion-icon name="ellipse-outline"></ion-icon> {% else %} <ion-icon name="close-circle-outline"></ion-icon> {% endif %}</span>
+                            <span>Certificado de Conclusion de estudios</span>
+                            <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}#certificado"><ion-icon name="eye-outline"></ion-icon></a>
+                        </label>
+                    </div>
+                    {% if value %}
+                    <div class="botones">
+                        <a href="{% url 'pasantia:rev_doc' postulante.estudiante.username%}" class="" >Ver Documentos</a>
+                        <a id="{{forloop.counter}}" onclick="suma(this.id)">Aprobar</a>
+                    </div>
+                    {% endif %}
+                </div>
+                {%endfor%}
+            </div>
+            <div >
+            <form id="aqui" class="oculto" method="POST">
+                {% csrf_token %}
+                <input type="number" name="est_asignados" id="est_asignados" value="{{post.cantidad}}" readonly>
+            </form>
+            <!--
+            <input type="submit" value="ENVIAR">
+            -->
+            <input type="checkbox" name="btn-m" id="btn-m">
+            <div class="contenedor-modal">
+                <div class="contenido-modal">
+                    <h2>Confirmacion de Postulantes</h2>
+                    <h4>Lista de Postulantes a Asignar a la Pasantia {{post.body}}</h4>
+                    <div class="lista_est_a">
+                        <ul class="lista_enviar_fin">
+                        </ul>
+                    </div>
+                    <div class="btn-cerrar">
+                        <label onclick="enviar_formulario()" for="btn-m" class="boton_e">
+                            Guardar y crear PDF
+                        </label>
+                    </div>
+                    <div class="btn-cerrar">
+                        <label onclick="rec()" class="boton_e">
+                            Volver a Asignar
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    
+</main>
+<script>
+    var estudiantes_asignados=0;
+    const asignados=document.getElementById("est_asignados").value;
+    const nombres= document.querySelectorAll(".ci");
+    function enviar_formulario(){
+        var c=document.getElementById('aqui');
+        
+        c.submit();
+    }
+    function rec(){
+        location.reload();
+    }
+    function suma(iden){
+        estudiantes_asignados+=1;
+        const ests =document.querySelectorAll(".estudiante");
+        const aux =document.querySelectorAll(".capa_pro");
+        ests.forEach(item => {
+            if(item.id==iden){
+                item.className+="a";
+                var ay=nombres[iden-1].textContent;
+                aux[iden-1].classList="capa_pro";
+                
+                nuevo(ay);
+            }
+        });
+        
+    }
+    function desasignar(identificador){
+        const aux1 =document.querySelectorAll(".capa_pro");
+        
+        const nombres= document.querySelectorAll(".ci");
+        var b=aux1[identificador-1].classList+=" oculto";
+        var g=nombres[identificador-1].textContent;
+        const envia = document.querySelectorAll(".enviados");
+        var c=0;
+        envia.forEach(ele => {
+            if(ele.value==g){
+                ele.parentNode.removeChild(ele);
+                //ele.value="";
+                estudiantes_asignados-=1;
+            }
+        });
+        
+    }
+    function nuevo(ay){
+        /*const asig = document.querySelectorAll(".enviados");
+        asig[estudiantes_asignados-1].value=ay;*/
+        var b=estudiantes_asignados;
+        const nele =document.createElement("input");
+        nele.setAttribute('type','text');
+        nele.setAttribute('value',ay);
+        nele.setAttribute('name',b);
+        nele.setAttribute('class','enviados');
+        let formul=document.getElementById("aqui");
+        formul.appendChild(nele);
+
+        //formul.append(nele);
+        revisar();
+    }
+    function revisar(){
+        if(estudiantes_asignados==asignados){
+            const ests =document.querySelectorAll(".estudiante ");
+            const aux =document.querySelectorAll(".capa_pro");
+            const mensaje = document.querySelectorAll(".mensaje");
+            const punto_guia = document.querySelectorAll(".punto_guia");
+            var c=0;
+            var caux=document.getElementById("btn-m");
+            caux.setAttribute('checked','true');
+            ests.forEach(element => {
+                console.log(element.classList[1]);
+                if(element.classList[1]==undefined){
+                    element.classList+=" rojo";
+                    aux[c].classList="capa_pro"
+                    mensaje[c].textContent="Estudiante Rechazado";
+                    punto_guia[c].classList+=" oculto";
+                }
+                c+=1;
+            });
+            const envia = document.querySelectorAll(".enviados");
+            envia.forEach(element => {
+                lista(element.value);
+            });
+        }
+    }
+    function lista(nombre){
+        var n=document.querySelectorAll(".nombre");
+        const ci= document.querySelectorAll(".ci");
+        var lon=ci.length;
+        for(var j=0;j<lon;j++){
+            if(ci[j].textContent==nombre){
+                var g=n[j].textContent;
+            }
+        }
+        const nele =document.createElement("li");
+        nele.textContent=g;
+        let formul=document.querySelector(".lista_enviar_fin");
+        formul.append(nele);
+    }
+</script>
+{% endblock content %}

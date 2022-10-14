@@ -1,0 +1,70 @@
+{% extends 'users/base.html' %}
+
+{% block tittle %}Documentos {{user.username}}{% endblock tittle %}
+
+
+
+{% block content %}
+<main>
+    <div id="caja_presentacion" class="fila">
+        {% if estado == 'encalificacion' %}
+        <div class="postulacion">
+            <div class="titulo">
+                Aviso de postulación
+            </div>
+            <div class="contenido">
+                <span>Se encuentra inscrito en la pasantia {{postulacion.postpasantia}} se estan calificando sus documentos</span> 
+            </div>
+        </div>
+        <br/>
+        
+        {% else %}
+            {% if estado == 'encurso' %}
+            <div class="postulacion">
+                <div class="titulo">
+                    Aviso de postulación
+                </div>
+                <div class="contenido">
+                    <span>Se encuentra inscrito en la pasantia {{postulacion.postpasantia}} tiene hasta la fecha {{postulacion.postpasantia.fecha_limite}}</span> 
+                    <span>para modificar sus datos, posteriormente se restringira el cambio a los documentos</span>
+                </div>
+            </div>
+            <br/>
+            {% endif %}
+            <div id="documentos_estudiante" class="llenar">
+                <div class="titulo">
+                    Documentos Personales
+                </div>
+                    <div class="formu">
+                        <form method='POST' enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <label for="ci" class="verificado {{user.profile.est_ci}}">
+                                <span>Fotocopia de Carnet de Identidad</span>
+                                {{form.ci_doc}}
+                            </label>
+                            <label for="hoja_vida" class="verificado {{user.profile.est_hoja_vida}}">
+                                <span>Hoja de vida documentado</span>
+                                {{form.hoja_vida_doc}}
+                            </label>
+                            <label for="record" class="verificado {{user.profile.est_record_doc}}">
+                                <span>Historial y record academico</span>
+                                {{form.record_doc}}
+                            </label>
+                            <label for="matri" class="verificado {{user.profile.est_bol_insc}}">
+                                <span>Boleta de Inscripcion o Fotocopia Matricula</span>
+                                {{form.bol_insc_doc}}
+                            </label>
+                            <label for="ce" class="verificado {{user.profile.est_conc_est}}">
+                                <span>Certificado de Conclucion de estudios</span>
+                                {{form.conc_est_doc}}
+                            </label>
+                            <a><button type="submit">Guardar Cambios</button></a>
+                        </form>
+                </div>
+            </div>
+            <br>
+        {% endif %}
+            
+    </div>
+</main>
+{% endblock content %}

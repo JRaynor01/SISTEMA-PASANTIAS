@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block tittle %}Inicio Sistema de Pasantias{% endblock tittle %}
+
+{% block content %}
+    <main>
+        <input type="checkbox" name="btn-1" id="btn-1" hidden>
+        <input type="checkbox" name="btn-2" id="btn-2" hidden>
+        <datalist id="e_2/2022">
+            {% for postulante in postulantes %}
+            <option value="{{postulante.estudiante.first_name}} {{postulante.estudiante.last_name}} {{postulante.estudiante.second_last_name}}"></option>
+            {% endfor %}
+        </datalist>
+        <datalist id="e_1/2022">
+            {% for postulante in postulantes %}
+            <option value="{{postulante.estudiante.username}}"></option>
+            {% endfor %}
+        </datalist>
+        <div id="caja_presentacion" class="fila">
+            <div class="presentacion_tabla">
+                <div class="titulo">
+                    Pasantias
+                </div>
+                <div class="llenar">
+                    <table class="tablita">
+                        <tr >
+                            <th class="peq">
+                                Nro
+                            </th>
+                            <th class="med">
+                                Estado
+                            </th>
+                            <th>
+                                Observaciones
+                            </th>
+                            <th class="peq">
+                                Unidades
+                            </th>
+                        </tr>
+                        {% for post in posts %}
+                        <tr>
+                            <td>
+                                {{post.body}}
+                            </td>
+                            <td>
+                                {{post.estado}}
+                            </td>
+                            <td style="TEXT-ALIGN:CENTER;">
+                                {% if post.estado == 'FINALIZADO' %}   FALTA ASIGNACION {%else%} ASIGNACION COMPLETADA {% endif %}
+                            </td>
+                            <td>
+                                {% if post.estado == 'ASIGNADO' %}
+                                <a href="">Ver PDF</a>
+                                {% else %}
+                                <a href="{% url 'pasantia:registrounidades' post.body%}">Unidades</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+           </div>
+        </div>
+
+
+        <div class="cont-modal">
+            <div class="conten-modal">
+                <h2>Unidades Pasantia {{pasantia.body}}</h2>
+                <div class="tab_mod">
+                    <table class="t2">
+                        <tr class="cap">
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Cupos Disponibles
+                            </th>
+                            <th>
+                                Botón
+                            </th>
+                        </tr>
+                        {% for unidad in unidades %}
+                        <tr>
+                            <td>
+                                {{unidad.nombre}}
+                            </td>
+                            <td>
+                                {{unidad.cantidad}}
+                            </td>
+                            <td>
+                                    {% if unidad.estado == 'REVISION' %}
+                                    <a href= "{% url 'pasantia:asignarestudiantes' pasantia.body unidad.id%}">Asignar</a>
+                                    {% else %}
+                                    Asignacion completada
+                                    {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}        
+                    </table>
+                </div>
+                <div class="btn-cerrar2">
+                    <label for="btn-1" class="boton_2">
+                        Cerrar
+                    </label>
+                </div>
+            </div>
+            <label for="btn-1" class="cerrar-modal"></label>
+        </div>
+        
+        
+
+        <div class="cont-modal1">
+            <div class="conten-modal">
+                <h2>Pasantia {{pasantia.body}}</h2>
+                <h4>Unidad {{unidad.nombre}}</h4>
+                <br>
+                <div >
+                    <form method="POST" id="lis_est_u">
+                        {% csrf_token %}
+                        <label for="nom_uni" class="oculto">
+                            <input type="text" id="nom_uni" name="nom_uni" value="{{unidad.id}}">
+                        </label>
+                    </form>
+                </div>
+                <div class="btn-cerrar2" >
+                    
+                </div>
+                <div class="btn-cerrar2">
+                    <label onclick="envia()" for="" class="boton_2 oculto dis" style="margin-right: 20px;">
+                        Asignar
+                    </label>
+                    <label onclick="eli_l()" for="btn-2" class="boton_2">
+                        Cerrar
+                    </label>
+                </div>
+            </div>
+            <label onclick="eli_l()" for="btn-2" class="cerrar-modal"></label>
+        </div>
+    </main>
+    
+    <script>
+        var pas = "e_2/2022";
+        var c =0;
+        var auc=0;
+        var xas=0;
+        crear_l({{unidad.cantidad}});
+        function as_es(i){
+            pas=i;
+        }
+        function crear_l(n){
+            auc=n;
+            var b = document.getElementById("lis_est_u");
+            var lis=document.getElementById(pas).childNodes;
+            var lis1=document.getElementById("e_1/2022").childNodes;
+            var j=0;
+            for (let i = 0; i < lis.length; i++) {
+                i++;
+                const a = document.createElement("label");
+                a.setAttribute("for",lis[i].value);
+                a.setAttribute("class","label_largo");
+                a.setAttribute("value",c);
+
+                const sp= document.createElement("span");
+                sp.textContent=lis[i].value+" :";
+                a.appendChild(sp);
+
+                const inp= document.createElement("input");
+                inp.setAttribute("oninput","lista_checks(this.checked)");
+                inp.setAttribute("type","checkbox");
+                inp.setAttribute("class","rt");
+                inp.setAttribute("value",lis1[i].value);
+                inp.setAttribute("name",j);
+                inp.setAttribute("id",lis[i].value);
+                a.appendChild(inp);
+                b.appendChild(a);
+                c=c+1;
+                j++;
+            }
+            
+        }
+        function eli_l(){
+            var d = document.querySelectorAll(".label_largo");
+            for (let k = 1; k < d.length; k++) {
+                d[k].remove();
+            }
+            c=0;
+        }
+        function lista_checks(g){
+                if(g){
+                    xas++;
+                    if(xas==auc){
+                        var dp = document.querySelector(".dis");
+                        dp.className="boton_2 qw";
+                        var tuy = document.querySelectorAll(".rt");
+                        tuy.forEach(e => {
+                            if(e.checked==false){
+                                e.classList="rt oculto";
+                            }
+                        });
+                    }
+                }else{
+                    xas--;
+                    if(xas<auc){
+                        var dp = document.querySelector(".qw");
+                        dp.className="boton_2 dis oculto";
+                        var tuy = document.querySelectorAll(".rt");
+                        tuy.forEach(e => {
+                            if(e.checked==false){
+                                e.classList="rt";
+                            }
+                        });
+                    }
+                }
+        }
+        function envia(){
+            var b = document.getElementById("lis_est_u");
+            
+            b.submit();
+            eli_l();
+        }
+        
+    </script>
+    {% endblock content %}

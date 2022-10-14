@@ -1,0 +1,145 @@
+{% load static %}
+<header>
+    <div id="logos">
+        <div class="logo">
+            <img id="umsa" src="{% static 'images/u_logo.png' %}" alt="Logo">
+        </div>
+        <div>
+            <h1>
+                SISTEMA DE PASANTIAS
+            </h1>
+        </div>
+        <div class="logo">
+            <img id="conta" src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+    </div>
+    <div id="nav_men">
+        <div id="bus">
+            <label for="btn-b" class="label_esp">
+            <a>
+                <ion-icon name="search-outline"></ion-icon>
+            </a>
+            </label>
+            <input type="text" name="bus_sup" id="bus_sup" class="b_s" value="">
+        </div>
+        <div id="central">
+            <ul>
+                <li class="list">
+                    <a href="{% url 'home' %}" id="aux">
+                        <span class="i">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="txt">Principal</span>
+                    </a>
+                </li>
+                
+                {% if user.tipo == 'administrador'%}
+                <li class="list">
+                    <a href="./ver_post.html" id="aux">
+                        <span class="i">
+                            <ion-icon name="people-outline"></ion-icon >
+                        </span>
+                        <span class="txt">Postulados</span>
+                    </a>
+                </li>
+                {% else %}
+               
+                <li class="list  ">
+                    <a href="./postulacion3.html" id="aux">
+                        <span class="i">
+                            <ion-icon name="bookmark-outline"></ion-icon>
+                        </span>
+                        <span class="txt">Postulacion</span>
+                    </a>
+                </li>
+                {% endif %}
+                <div class="indicador oculto"></div>
+            </ul>
+        </div>
+
+        <div id="not">
+            <div id="notifica" class="notifica">
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+                <span>
+                    Esta es una notificacion que aparece cuado le das click al boton de la campana
+                </span>
+            </div>
+            <div id="min_men" class="min_men">
+                
+               
+                {% if user.profile %}
+                <a href="{% url 'users:profile-document' %}" class="ind">Documentos</a>
+                <a href="{% url 'users:edit' %}" class="ind">Configuracion</a>
+                {% else %}
+                <a href="{% url 'pasantia:pasantia-edit' %}" class="ind">Agregar</a>
+                <a href="{% url 'account_change_password' %}" class="ind">Configuracion</a>
+                {% endif %}
+                <a href="{% url 'account_logout' %}" class="ind">Salir</a>
+            </div>
+            <a onclick="miPer()"><ion-icon name="notifications-outline"></ion-icon></a>
+            <a onclick="miNot()"><ion-icon name="person"></ion-icon></a> 
+        </div>
+        <script>
+            /*
+            const list=document.querySelectorAll('.list');
+            function activeLink(){
+                list.forEach((item)=>
+                item.classList.remove('active'));
+                this.classList.add('active');
+            }
+            list.forEach((item)=>
+            item.addEventListener('click',activeLink));
+            */
+            function miPer() {
+                var x = document.getElementById("notifica");
+                var y = document.getElementById("min_men");
+                if (x.className === "notifica") {
+                    if(y.className === "min_men"){
+                        x.className += " responsive";
+                    }else{
+                        y.className = "min_men";
+                        x.className += " responsive";
+                    }
+                    
+                } else {
+                    x.className = "notifica";
+                }
+            }
+            function miNot() {
+                var x = document.getElementById("min_men");
+                var y = document.getElementById("notifica");
+                if (x.className === "min_men") {
+                    if(y.className === "notifica"){
+                        x.className = "min_men";
+                    }else{
+                        y.className="notifica";
+                        x.className = "min_men";
+                    }
+                    x.className += " res";
+                } else {
+                    x.className = "min_men";
+                }
+            }
+        </script>
+        
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    </div>
+</header>

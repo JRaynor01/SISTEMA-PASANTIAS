@@ -1,0 +1,25 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Crear Entidad{% endblock tittle %}
+{% block content %}
+<main>
+<div id="caja_presentacion" class="fila">
+<div class="llenar">
+    <div class="titulo">Nueva Unidad</div>
+    <div class="formu">
+        <form method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="ci">
+                <span>Nombre de la Unidad </span>
+                {{form.name}}
+            </label>
+            <label for="ci">
+                <span>Logo de la Unidad</span>
+                {{form.image}}
+            </label>
+            <a ><button type="submit"> Guardar Unidad</button></a>
+        </form>
+    </div>
+</div>
+</div>
+</main>
+{% endblock content %}

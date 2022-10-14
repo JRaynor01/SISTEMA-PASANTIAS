@@ -1,0 +1,126 @@
+{% extends 'users/base.html' %}
+{% block tittle %}Publicar pasantia{% endblock tittle %}
+{% block content %}
+<div id="caja_presentacion" class="fila">
+    <div class="llenar">
+        <div class="titulo">Nueva Pasantia</div>
+        <div class="formu">
+            <form method='POST' enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>
+                    <span>Nro:</span>
+                    <input type="text" name="body" placeholder="52/2022" required id="id_body" value={{post.body}}>
+                </label>
+                <label for="fecha_limite">
+                    <span>Fecha Limite</span>
+                    <input type="date" name="fecha_limite" required id="id_fecha_limite" value={{fecha_lim}}>
+                </label>
+                <label for="fecha_publicacion">
+                    <span>Fecha de Publicacion</span>
+                    <input type="date" name="created_on" required id="id_created_on" value={{fecha_cre}}>
+                </label>
+                <label for="entidad">
+                    <span>Entidad</span>
+                    <input list="entidades" name="entidad" id="entidad" required value={{post.entidad_pert}}>
+                    <datalist id="entidades">
+                        {% for enti in entidad %}
+                        <option value="{{enti.nombre}}">
+                        {% endfor %}    
+                </label>
+                <div id="unidades" style="padding:0px 0px 0px 0px;">
+                    <label for="unidad" class="aux_label">
+                        <span>Unidad</span>
+                        <div class="d_auc">
+                            <input oninput="lista_dinamica()" type="text" name="unidad0" id="unidad" placeholder="Elige una Unidad" style="width:100% ; height:35px; margin-bottom: 10px;" value="">
+                            <input type="number" name="cantidad0" id="cantidad" placeholder="Cantidad Puestos" style="width:100% ;height:35px; " min="1" >
+                        </div>
+        
+                    </label>
+                    
+                </div>
+                <a class="btn_a oculto" onclick="una_mas()" id="btn_agregar">Agregar Unidad</a>
+                <a class="btn_a oculto" onclick="una_menos()" id="btn_desagregar">Quitar Unidad</a>
+                <input type="hidden" name="num_label" id="num_label" value="1">
+                <label for="log_uni">
+                    <a href={{post.file.url}}><span>Convocatoria PDF</span></a>
+                    <input type="file" name="file" accept=".pdf" id="id_file">
+                </label>
+                <a><button type="submit">Modificar Pasantia</button> </a>
+            </form>
+        </div>
+    </div>
+</div>
+</main>
+<script>
+var c=1;
+function lista_dinamica(){
+    /*
+    var d = document.getElementById("unidadesL").childNodes;
+    for (let i = 1; i < d.length; i++) {
+        if(d[i].value==a){
+            d[i].remove();
+        }
+    }*/
+    var e=document.getElementById("btn_agregar");
+    e.className="btn_a";
+    /*
+    if(c-1<d.length){
+        var e=document.getElementById("btn_agregar");
+        e.className="btn_agregar";
+    }else{
+        var g=document.querySelector(".spanito");
+        g.className="spanito";
+    }*/
+    
+}
+function una_mas(){
+    var nom="unidad" + c;
+    const n_L= document.createElement("label");
+    n_L.setAttribute("for",nom);
+    n_L.setAttribute("class","aux_label");
+    const n_S= document.createElement("span");
+    n_S.textContent="Unidad "+c;
+    n_L.appendChild(n_S);
+    const n_D=document.createElement("div");
+    n_D.setAttribute("class","d_auc");
+    const n_I= document.createElement("input");
+    n_I.setAttribute("oninput","lista_dinamica()");
+    n_I.setAttribute("list","unidadesL");
+    n_I.setAttribute("name",nom);
+    n_I.setAttribute("id",nom);
+    n_I.setAttribute("placeholder","Elige una Unidad");
+    n_I.setAttribute("style","width:100% ;height:35px; margin-bottom: 10px;");
+    n_D.appendChild(n_I);
+    const n_C= document.createElement("input");
+    n_C.setAttribute("type","number");
+    n_C.setAttribute("name","cantidad"+c);
+    n_C.setAttribute("id","cantidad"+c);
+    n_C.setAttribute("placeholder","Cantidad Puestos");
+    n_C.setAttribute("style","width:100% ;height:35px;");
+    n_D.appendChild(n_C);n_L.appendChild(n_D);
+    c++;
+    document.getElementById("unidades").appendChild(n_L);
+    var ay=document.getElementById("btn_agregar");
+    ay.className+=" oculto";
+    var ta = document.getElementById("btn_desagregar");
+    ta.className="btn_a";
+
+    var g=document.getElementById("num_label");
+    g.value=c;
+}
+
+function una_menos(){
+    var qwe = document.querySelectorAll(".aux_label");
+    var as=qwe.length-1;
+    qwe[as].remove();
+    c--;
+    if(c==1){
+        var ta = document.getElementById("btn_desagregar");
+        ta.className="btn_a oculto";
+    }
+    lista_dinamica();
+    var g=document.getElementById("num_label");
+    g.value=c;
+}
+</script>
+{% endblock content %}

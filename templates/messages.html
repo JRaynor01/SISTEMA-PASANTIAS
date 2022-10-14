@@ -1,0 +1,17 @@
+{% if messages %}
+    {% for message in messages %}
+                    <input type="checkbox" name="btn-m" id="btn-m" checked>
+                    <div class="contenedor-modal">
+                        <div class="contenido-modal">
+                            <h2>Aviso</h2>
+                            <p>{{ message }}</p>
+                            <div class="btn-cerrar">
+                                <label for="btn-m" class="boton_e">
+                                    Cerrar
+                                </label>
+                            </div>
+                        </div>
+                        <label for="btn-m" class="cerrar-modal"></label>
+                    </div>
+    {% endfor %}
+{% endif %}

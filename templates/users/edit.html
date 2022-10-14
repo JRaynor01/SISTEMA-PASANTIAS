@@ -1,0 +1,52 @@
+{% extends 'users/base.html' %}
+
+{% block tittle %}Configuracion {{user.username}}{% endblock tittle %}
+
+{% block content %}
+<main>
+    <div id="caja_presentacion" class="fila">
+            <div id="datos_estudiante" class="llenar">    
+                <div class="titulo">
+                    Datos Personales
+                </div>
+                <div class="formu">
+                    <form method="POST" enctype="multipart/form-data">
+                        <br>
+                        {% csrf_token %}
+                        <label for="nombre">
+                            <span>Nombres:</span>
+                            <input type="text" id="nombre" value=" {{user.first_name}}" readonly>
+                        </label>
+                        <label for="a_paterno">
+                            <span>Apellido Paterno:</span>
+                            <input type="text" id="a_paterno" value=" {{user.last_name}}" readonly>
+                        </label>
+                        <label for="a_materno">
+                            <span>Apellido Materno:</span>
+                            <input type="text" id="a_materno" value=" {{user.second_last_name}}" readonly>
+                        </label>
+                        <label for="carnet">
+                            <span>Carnet:</span>
+                            <input type="text" id="carnet" value=" {{user.ci}}" readonly>
+                        </label>
+                        <label for="ru">
+                            <span>RU:</span>
+                            <input type="text" id="ru" value=" {{user.username}}" readonly>
+                        </label>
+                        <label for="">
+                            <span>Celular:</span>
+                            {{form.celular}}
+                        </label>
+                        <a><button type="submit">Guardar Cambios</button> </a>
+                        
+                        <br>
+                    </form>
+                    <a class="button secondaryAction" href="{% url 'account_change_password' %}">Cambiar contraseña</a>
+                    <br/>
+                    <a class="button secondaryAction" href="{% url 'account_email' %}">Cambiar e-mail</a>
+                </div>
+            </div>
+
+    </div>
+</main>
+{% endblock content %}

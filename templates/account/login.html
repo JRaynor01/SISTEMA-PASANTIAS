@@ -1,0 +1,36 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% block head_title %}{% trans "Inicio de Sesion" %}{% endblock %}
+
+{% block content %}
+      <div class="e5">
+          <div id="login_u">
+              <div class="titulo">
+                  <h3>{% trans "Inicio de Sesion" %}</h3>
+              </div>
+              <div class="formu">
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                  {% csrf_token %}
+                  {% if form.errors %}
+                    {% for p,q in form.errors.items %}
+                      {{q}}
+                    {% endfor %}
+                  {% endif %}
+                  <label name="datos" for="usuario">
+                    <span>Usuario:</span>
+                    {{form.login}}
+                  </label>
+                <label name="clave" for="clave">
+                    <span>Contraseña:</span>
+                    {{form.password}}
+                  </label>
+                  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Olvidaste tu contraseña?" %}</a>
+                  <button class="btn blue" type="submit"><span>{% trans "Ingresar" %}</span></button>
+                </form>
+              </div>
+          </div>
+      </div>
+{% endblock %}
